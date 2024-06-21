@@ -15,10 +15,10 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---
+-- Database Name:v1d4r_b10g
 -- Table structure for table `blogs`
 --
-
+-- USE v1d4r_b10g;
 DROP TABLE IF EXISTS `blogs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -126,9 +126,10 @@ VALUES (1, 'https://l0tus.vip', 'l0tus'),
        (84, 'http://sh4ll0t.github.io/', 'sh4ll0t'),
        (85, 'http://addr3s5.top/', 'addr3s5'),
        (86, 'https://k1r4ca.top/', 'k1r4ca'),
-       (87, 'https://z1nax5.github.io/', 'z1nax5'),
+       (87, 'https://z1nax5.github.io/', 'M1aoo0bin'),
        (88, 'http://fc04db.github.io/', 'fc04db'),
-       (89, ' https://blog.woshiluo.com/', 'woshiluo');
+       (89, 'https://blog.woshiluo.com/', 'woshiluo'),
+       (90, 'https://ch405.live', 'Ch405');
 /*!40000 ALTER TABLE `blogs` ENABLE KEYS */;
 UNLOCK
 TABLES;

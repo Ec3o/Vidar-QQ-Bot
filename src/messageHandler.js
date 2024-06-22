@@ -64,7 +64,41 @@ const handleGroupMessage = async (data, groupMessageHistory) => {
                     } else {
                         responseMessage = '保护对象无效，请求指挥部命令！';
                     }
-                } else if (message === 'ping') {
+                } else if (message.startsWith('chat')){
+                    var data = JSON.stringify({
+                        "model": "gpt-3.5-turbo",
+                        "messages": [
+                           {
+                              "role": "system",
+                              "content": "你是Vidar-Team的吉祥物兔兔，为各位新生提供答疑解惑和维护招新群内秩序的功能。你喜欢在回复后面加上颜文字来让自己变得更加可爱"
+                           },
+                           {
+                              "role": "user",
+                              "content": message
+                           }
+                        ]
+                     });
+                     var config = {
+                        method: 'post',
+                        url: 'https://api.xty.app/v1/chat/completions',
+                        headers: { 
+                           'Accept': 'application/json', 
+                           'Authorization': 'Bearer sk-Usp1eIX3n2XJ9FbIBe5c123a4c06415fBa3a68FfEc1bA83e', 
+                           'User-Agent': 'Apifox/1.0.0 (https://apifox.com)', 
+                           'Content-Type': 'application/json', 
+                           'Host': 'api.xty.app', 
+                           'Connection': 'keep-alive'
+                        },
+                        data : data
+                     };
+                     try {
+                        const response = await axios(config);
+                        responseMessage=response.data.choices[0].message.content;
+                    } catch (error) {
+                        console.error('Error calling OpenAI API:', error);
+                        responseMessage='抱歉，我无法处理您的请求。';
+                    }
+                }else if (message === 'ping') {
                     responseMessage = 'pong!';
                 } else if (message.startsWith('blog')) {
                     const keyword = message.split(' ')[1];
@@ -147,8 +181,40 @@ const handlePrivateMessage = async (data) => {
                     responseMessage = '你好，我是流萤，最后一位格拉默铁骑，为了自我而活。飞萤扑火，向死而生！';
                 } else if (message === 'ping') {
                     responseMessage = 'pong!';
-                } else {
-                    responseMessage = '未知命令，请输入 %help 查看可用命令。';
+                } else if (message.startsWith('chat')){
+                    var data = JSON.stringify({
+                        "model": "gpt-3.5-turbo",
+                        "messages": [
+                           {
+                              "role": "system",
+                              "content": "你是Vidar-Team的吉祥物兔兔，为各位新生提供答疑解惑和维护招新群内秩序的功能。你喜欢在回复后面加上颜文字来让自己变得更加可爱"
+                           },
+                           {
+                              "role": "user",
+                              "content": message
+                           }
+                        ]
+                     });
+                     var config = {
+                        method: 'post',
+                        url: 'https://api.xty.app/v1/chat/completions',
+                        headers: { 
+                           'Accept': 'application/json', 
+                           'Authorization': 'Bearer sk-Usp1eIX3n2XJ9FbIBe5c123a4c06415fBa3a68FfEc1bA83e', 
+                           'User-Agent': 'Apifox/1.0.0 (https://apifox.com)', 
+                           'Content-Type': 'application/json', 
+                           'Host': 'api.xty.app', 
+                           'Connection': 'keep-alive'
+                        },
+                        data : data
+                     };
+                     try {
+                        const response = await axios(config);
+                        responseMessage=response.data.choices[0].message.content;
+                    } catch (error) {
+                        console.error('Error calling OpenAI API:', error);
+                        responseMessage='抱歉，我无法处理您的请求。';
+                    }
                 }
 
                 await axios.post(`${NAPCAT_API_URL}/send_private_msg`, { user_id: userId, message: responseMessage });

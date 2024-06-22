@@ -1,8 +1,11 @@
+require('dotenv').config()
 const axios = require('axios');
 const db = require('./db');
 
-const NAPCAT_API_URL = 'http://127.0.0.1:6000';
-
+const NAPCAT_API_URL = process.env.NAPCAT_API_URL;
+const OPENAI_API_KEY=process.env.OPENAI_API_KEY;
+console.log(`NAPCAT_API_URL:${NAPCAT_API_URL}`)
+console.log(`OPENAI_API_KEY:${OPENAI_API_KEY}`)
 const handleGroupMessage = async (data, groupMessageHistory) => {
     const groupId = data.group_id;
     const userId = data.user_id;
@@ -47,22 +50,22 @@ const handleGroupMessage = async (data, groupMessageHistory) => {
                 if (message.startsWith('help')) {
                     responseMessage = '可用命令: %help, %info, %ban <user_id>, %unban <user_id>, %blog <keyword>, %ping, %vidar(暂不可用),%chat';
                 } else if (message.startsWith('info')) {
-                    responseMessage = '你好，我是流萤，最后一位格拉默铁骑，为了自我而活。飞萤扑火，向死而生！';
+                    responseMessage = '你好，我是Vidar兔，来自神秘的赛博世界ヾ(≧▽≦*)o';
                 } else if (message.startsWith('ban')) {
                     const targetUserId = message.split(' ')[1];
                     if (targetUserId) {
                         await axios.post(`${NAPCAT_API_URL}/set_group_ban`, { group_id: groupId, user_id: targetUserId, duration: 30 * 60 });
-                        responseMessage = `协议通过，执行焦土作战， ${targetUserId} 已歼灭！`;
+                        responseMessage = `${targetUserId}再见喵`;
                     } else {
-                        responseMessage = '索敌无效，请求指挥部命令！';
+                        responseMessage = '?';
                     }
                 } else if (message.startsWith('unban')) {
                     const targetUserId = message.split(' ')[1];
                     if (targetUserId) {
                         await axios.post(`${NAPCAT_API_URL}/set_group_ban`, { group_id: groupId, user_id: targetUserId, duration: 0 });
-                        responseMessage = `协议通过， ${targetUserId} 保护作战完成！`;
+                        responseMessage = `${targetUserId}你终于回来了喵`;
                     } else {
-                        responseMessage = '保护对象无效，请求指挥部命令！';
+                        responseMessage = '?';
                     }
                 } else if (message.startsWith('chat')){
                     var data = JSON.stringify({
@@ -83,7 +86,7 @@ const handleGroupMessage = async (data, groupMessageHistory) => {
                         url: 'https://api.xty.app/v1/chat/completions',
                         headers: { 
                            'Accept': 'application/json', 
-                           'Authorization': 'Bearer sk-Usp1eIX3n2XJ9FbIBe5c123a4c06415fBa3a68FfEc1bA83e', 
+                           'Authorization': `Bearer ${OPENAI_API_KEY}`, 
                            'User-Agent': 'Apifox/1.0.0 (https://apifox.com)', 
                            'Content-Type': 'application/json', 
                            'Host': 'api.xty.app', 
@@ -178,7 +181,7 @@ const handlePrivateMessage = async (data) => {
                 if (message.startsWith('help')) {
                     responseMessage = '可用命令: %help, %info, %ping';
                 } else if (message.startsWith('info')) {
-                    responseMessage = '你好，我是流萤，最后一位格拉默铁骑，为了自我而活。飞萤扑火，向死而生！';
+                    responseMessage = '你好，我是Vidar兔，来自神秘的赛博世界ヾ(≧▽≦*)o';
                 } else if (message === 'ping') {
                     responseMessage = 'pong!';
                 } else if (message.startsWith('chat')){
@@ -200,7 +203,7 @@ const handlePrivateMessage = async (data) => {
                         url: 'https://api.xty.app/v1/chat/completions',
                         headers: { 
                            'Accept': 'application/json', 
-                           'Authorization': 'Bearer sk-Usp1eIX3n2XJ9FbIBe5c123a4c06415fBa3a68FfEc1bA83e', 
+                           'Authorization': `Bearer ${OPENAI_API_KEY}`, 
                            'User-Agent': 'Apifox/1.0.0 (https://apifox.com)', 
                            'Content-Type': 'application/json', 
                            'Host': 'api.xty.app', 
